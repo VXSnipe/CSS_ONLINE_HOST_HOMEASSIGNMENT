@@ -1,0 +1,107 @@
+<div class="records-container">
+  <div *ngIf="loading" class="loading">Loading records...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div *ngIf="!loading && !showDetails" class="records-list">
+    <div class="header-section">
+      <h2>Records</h2>
+      <div class="export-buttons">
+        <button class="btn-export btn-excel" (click)="exportToExcel()">Export to Excel</button>
+        <button class="btn-export btn-pdf" (click)="exportToPDF()">Export to PDF</button>
+      </div>
+    </div>
+    <table class="records-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Customer ID</th>
+          <th>Customer Last Name</th>
+          <th>Format</th>
+          <th>Genre</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of records">
+          <td>{{ record.id }}</td>
+          <td>{{ record.customerDetails?.customerId || '-' }}</td>
+          <td>{{ record.customerDetails?.lastName || '-' }}</td>
+          <td>{{ record.format }}</td>
+          <td>{{ record.genre }}</td>
+          <td class="actions">
+            <button class="btn-view" (click)="viewRecord(record)">View</button>
+            <button class="btn-update" (click)="updateRecord(record)" [disabled]="!authService.canUpdate()">Update</button>
+            <button class="btn-delete" (click)="deleteRecord(record.id)" [disabled]="!authService.canDelete()">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!loading && showDetails && selectedRecord" class="record-details">
+    <h2>Record Details</h2>
+    <div class="details-content">
+      <div class="detail-row">
+        <label>ID:</label>
+        <span>{{ selectedRecord.id }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Title:</label>
+        <span>{{ selectedRecord.title | lowercase }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Artist:</label>
+        <span>{{ selectedRecord.artist }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Format:</label>
+        <span>{{ selectedRecord.format }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Genre:</label>
+        <span>{{ selectedRecord.genre }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Release Year:</label>
+        <span>{{ selectedRecord.releaseYear }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Price:</label>
+        <span>${{ selectedRecord.price }}</span>
+      </div>
+      <div class="detail-row">
+        <label>Stock Quantity:</label>
+        <span>{{ selectedRecord.stockQuantity }} ({{ selectedRecord.stockQuantity | stockStatus }})</span>
+      </div>
+      <div *ngIf="selectedRecord.customerDetails" class="customer-section">
+        <h3>Customer Details</h3>
+        <div class="detail-row">
+          <label>Customer ID:</label>
+          <span>{{ selectedRecord.customerDetails.customerId }}</span>
+        </div>
+        <div class="detail-row">
+          <label>First Name:</label>
+          <span>{{ selectedRecord.customerDetails.firstName }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Last Name:</label>
+          <span>{{ selectedRecord.customerDetails.lastName }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Contact Number:</label>
+          <span>{{ selectedRecord.customerDetails.contactNumber }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Email:</label>
+          <span>{{ selectedRecord.customerDetails.email }}</span>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-update" (click)="updateRecord(selectedRecord)" [disabled]="!authService.canUpdate()">Update</button>
+        <button class="btn-delete" (click)="deleteRecord(selectedRecord.id)" [disabled]="!authService.canDelete()">Delete</button>
+        <button class="btn-close" (click)="closeDetails()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

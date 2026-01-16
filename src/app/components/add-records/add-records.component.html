@@ -1,0 +1,186 @@
+<div class="add-records-container">
+  <h2>{{ isEdit ? 'Update Record' : 'Add New Record' }}</h2>
+  
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+  <form [formGroup]="recordForm" (ngSubmit)="onSubmit()" class="add-records-form">
+    <div class="form-section">
+      <h3>Record Information</h3>
+      
+      <div class="form-group">
+        <label for="title">Record Title:</label>
+        <input 
+          type="text" 
+          id="title" 
+          formControlName="title"
+          class="form-control"
+          [class.is-invalid]="title?.invalid && title?.touched">
+        <div class="error-message" *ngIf="title?.invalid && title?.touched">
+          <div *ngIf="title?.errors?.['required']">Title is required.</div>
+          <div *ngIf="title?.errors?.['minlength']">Title must be at least 3 characters.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="artist">Artist:</label>
+        <input 
+          type="text" 
+          id="artist" 
+          formControlName="artist"
+          class="form-control"
+          [class.is-invalid]="artist?.invalid && artist?.touched">
+        <div class="error-message" *ngIf="artist?.invalid && artist?.touched">
+          <div *ngIf="artist?.errors?.['required']">Artist is required.</div>
+          <div *ngIf="artist?.errors?.['minlength']">Artist must be at least 2 characters.</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="format">Format:</label>
+          <select 
+            id="format" 
+            formControlName="format"
+            class="form-control"
+            [class.is-invalid]="format?.invalid && format?.touched">
+            <option value="">Select Format</option>
+            <option *ngFor="let f of formats" [value]="f">{{ f }}</option>
+          </select>
+          <div class="error-message" *ngIf="format?.invalid && format?.touched">Format is required.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="genre">Genre:</label>
+          <select 
+            id="genre" 
+            formControlName="genre"
+            class="form-control"
+            [class.is-invalid]="genre?.invalid && genre?.touched">
+            <option value="">Select Genre</option>
+            <option *ngFor="let g of genres" [value]="g">{{ g }}</option>
+          </select>
+          <div class="error-message" *ngIf="genre?.invalid && genre?.touched">Genre is required.</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="releaseYear">Release Year:</label>
+          <input 
+            type="number" 
+            id="releaseYear" 
+            formControlName="releaseYear"
+            class="form-control"
+            [class.is-invalid]="releaseYear?.invalid && releaseYear?.touched">
+          <div class="error-message" *ngIf="releaseYear?.invalid && releaseYear?.touched">
+            <div *ngIf="releaseYear?.errors?.['required']">Release Year is required.</div>
+            <div *ngIf="releaseYear?.errors?.['min'] || releaseYear?.errors?.['max']">Enter a valid year.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price:</label>
+          <input 
+            type="number" 
+            id="price" 
+            formControlName="price"
+            step="0.01"
+            class="form-control"
+            [class.is-invalid]="price?.invalid && price?.touched">
+          <div class="error-message" *ngIf="price?.invalid && price?.touched">
+            <div *ngIf="price?.errors?.['required']">Price is required.</div>
+            <div *ngIf="price?.errors?.['min']">Price must be greater than 0.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="stockQuantity">Stock Quantity:</label>
+          <input 
+            type="number" 
+            id="stockQuantity" 
+            formControlName="stockQuantity"
+            class="form-control"
+            [class.is-invalid]="stockQuantity?.invalid && stockQuantity?.touched">
+          <div class="error-message" *ngIf="stockQuantity?.invalid && stockQuantity?.touched">
+            <div *ngIf="stockQuantity?.errors?.['required']">Stock Quantity is required.</div>
+            <div *ngIf="stockQuantity?.errors?.['min']">Stock Quantity must be 0 or greater.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Customer Details (Optional)</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="customerId">Customer ID:</label>
+          <input 
+            type="text" 
+            id="customerId" 
+            formControlName="customerId"
+            placeholder="e.g., 1001A"
+            class="form-control"
+            [class.is-invalid]="customerId?.invalid && customerId?.touched">
+          <div class="error-message" *ngIf="customerId?.invalid && customerId?.touched">
+            Customer ID must be numeric followed by a letter (e.g., 1001A).
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customerFirstName">First Name:</label>
+          <input 
+            type="text" 
+            id="customerFirstName" 
+            formControlName="customerFirstName"
+            class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="customerLastName">Last Name:</label>
+          <input 
+            type="text" 
+            id="customerLastName" 
+            formControlName="customerLastName"
+            class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="customerContactNumber">Contact Number:</label>
+          <input 
+            type="tel" 
+            id="customerContactNumber" 
+            formControlName="customerContactNumber"
+            class="form-control"
+            [class.is-invalid]="customerContactNumber?.invalid && customerContactNumber?.touched">
+          <div class="error-message" *ngIf="customerContactNumber?.invalid && customerContactNumber?.touched">
+            Contact number must be numeric and at least 8 digits.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="customerEmail">Email:</label>
+          <input 
+            type="email" 
+            id="customerEmail" 
+            formControlName="customerEmail"
+            class="form-control"
+            [class.is-invalid]="customerEmail?.invalid && customerEmail?.touched">
+          <div class="error-message" *ngIf="customerEmail?.invalid && customerEmail?.touched">
+            Please enter a valid email address.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="recordForm.invalid || loading" class="btn-submit">
+        {{ loading ? 'Submitting...' : (isEdit ? 'Update Record' : 'Add Record') }}
+      </button>
+      <button type="button" (click)="cancel()" class="btn-cancel">Cancel</button>
+    </div>
+  </form>
+</div>
