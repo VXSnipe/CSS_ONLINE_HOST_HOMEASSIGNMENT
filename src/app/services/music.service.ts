@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Record } from '../models/record.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MusicService {
-  private apiUrl = 'http://localhost:3000/records';
+  private apiUrl = `${environment.apiUrl}/records`;
 
   constructor(private http: HttpClient) { }
 
