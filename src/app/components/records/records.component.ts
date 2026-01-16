@@ -58,7 +58,7 @@ export class RecordsComponent implements OnInit {
   }
 
   updateRecord(record: Record): void {
-    this.router.navigate(['/add-records'], { state: { record } });
+    this.router.navigate(['/add-records'], { queryParams: { id: record.id } });
   }
 
   deleteRecord(id: number): void {

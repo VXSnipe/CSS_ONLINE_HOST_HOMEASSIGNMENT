@@ -2,8 +2,8 @@
   <nav class="navbar">
     <div class="nav-brand">Music Retailer System</div>
     <div class="nav-menu">
-      <button class="nav-btn" (click)="router.navigate(['/login'])" [disabled]="!isLoggedIn()">
-        {{ isLoggedIn() ? 'Login' : 'Login' }}
+      <button class="nav-btn" *ngIf="!isLoggedIn()" (click)="router.navigate(['/login'])">
+        Login
       </button>
       <button class="nav-btn" (click)="router.navigate(['/records'])" [disabled]="!isLoggedIn()">
         Records

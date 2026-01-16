@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MusicService } from '../../services/music.service';
 import { AuthService } from '../../services/auth.service';
 import { Record } from '../../models/record.model';
@@ -27,7 +27,8 @@ export class AddRecordsComponent implements OnInit {
     private fb: FormBuilder,
     private musicService: MusicService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.recordForm = this.createForm();
   }
@@ -36,13 +37,25 @@ export class AddRecordsComponent implements OnInit {
     this.formats = this.musicService.getFormats();
     this.genres = this.musicService.getGenres();
 
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state?.['record']) {
-      const record = navigation.extras.state['record'] as Record;
-      this.isEdit = true;
-      this.recordId = record.id;
-      this.populateForm(record);
-    }
+    this.route.queryParams.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.isEdit = true;
+        this.recordId = +id;
+        this.loadRecord(this.recordId);
+      }
+    });
+  }
+
+  private loadRecord(id: number): void {
+    this.musicService.getRecordById(id).subscribe({
+      next: (record: Record) => {
+        this.populateForm(record);
+      },
+      error: () => {
+        this.errorMessage = 'Failed to load record.';
+      }
+    });
   }
 
   private createForm(): FormGroup {
