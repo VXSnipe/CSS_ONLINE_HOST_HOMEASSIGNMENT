@@ -157,7 +157,7 @@
             class="form-control"
             [class.is-invalid]="customerContactNumber?.invalid && customerContactNumber?.touched">
           <div class="error-message" *ngIf="customerContactNumber?.invalid && customerContactNumber?.touched">
-            Contact number must be numeric and at least 8 digits.
+            Contact number must be at least 8 characters (numbers, dashes, spaces, or parentheses allowed).
           </div>
         </div>
 

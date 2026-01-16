@@ -69,7 +69,7 @@ export class AddRecordsComponent implements OnInit {
       stockQuantity: ['', [Validators.required, Validators.min(0)]],
       customerFirstName: [''],
       customerLastName: [''],
-      customerContactNumber: ['', [Validators.pattern(/^[0-9]{8,}$/)]],
+      customerContactNumber: ['', [Validators.pattern(/^[0-9\s\-()]{8,}$/)]],
       customerEmail: ['', Validators.email],
       customerId: ['', [Validators.pattern(/^[0-9]+[A-Za-z]$/)]]
     });
