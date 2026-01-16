@@ -1,3 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "dist/music-retailer-app/browser"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
